@@ -1,11 +1,13 @@
 
-survDesign <- function(alpha,power,tails,HR,intFrac,intPow,nSite,rpm,openRate,maxTime,penal,folUp,S_t,plotDes=T,results=T){
+survDesign <- function(alpha,power,tails,HR,r=1,intFrac,intPow,nSite,rpm,openRate,maxTime,penal,folUp,S_t,plotDes=T,results=T){
 
   #############
   ### Sample Size estimate - Somewhere just over 500 events
-  events <- gsdesign.survival(intFrac,HR,alpha,power,delta.eb=intPow)
-  #############
+  events <- gsdesign.survival(ifrac=intFrac,haz.ratio = HR,r=r,sig.level=alpha,power=power,delta.eb=intPow)
+  if(tails==1) events <- gsdesign.survival(ifrac=intFrac,haz.ratio = HR,r=r,sig.level=alpha,
+                                           power=power,delta.eb=intPow,alternative="one.sided")
 
+  #############
   #############
   ### recruitment rate
   rec <- rec.forcast(nSite,rpm,openRate,maxTime,penal,plot=F);rec
